@@ -1,10 +1,18 @@
 ---
 - block:
 
+  - name: vagrant check version
+    shell: vagrant --version | grep -o -E '[0-9.]*'
+    failed_when: no
+    ignore_errors: yes
+    check_mode: no
+    register: vagrant_version
+
   # install vagrant (base xenial version is too old)
   - name: vagrant install (== 1.95)
     apt:
       deb: "{{ _vagrant_deb_url }}"
+    when: vagrant_version.rc != 0 or vagrant_version.stdout | trim | version_compare('1.8.5', '<')
 
   # check virtualbox repository
   - name: virtualbox repository keys
