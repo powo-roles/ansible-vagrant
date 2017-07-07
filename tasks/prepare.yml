@@ -4,7 +4,6 @@
   # install vagrant (base xenial version is too old)
   - name: vagrant install (== 1.95)
     apt:
-      name: vagrant={{ _vagrant_deb_version }}
       deb: "{{ _vagrant_deb_url }}"
 
   # check virtualbox repository
@@ -16,7 +15,7 @@
 
   - name: virtualbox repository
     apt_repository:
-      repo: deb http://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release }} non-free contrib
+      repo: deb http://download.virtualbox.org/virtualbox/debian {{ hostvars[ansible_host]['ansible_distribution_release'] }} non-free contrib
       state: present
       filename: virtualbox
 
@@ -29,3 +28,5 @@
   # warning: we are on a delegated task, so we need to lookup
   # ansible_distribution on delegated host
   when: hostvars[ansible_host]['ansible_distribution'] == 'Ubuntu'
+  become: yes
+  become_user: root
