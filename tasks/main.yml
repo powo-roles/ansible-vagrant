@@ -1,0 +1,10 @@
+- include: prepare.yml
+
+- include: init.yml
+  when: vagrant_task == 'up'
+
+- include: destroy.yml
+  when: vagrant_task == 'destroy'
+
+- include: halt.yml
+  when: vagrant_task == 'halt'
