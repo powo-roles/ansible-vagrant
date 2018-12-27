@@ -21,6 +21,7 @@
   register: vagrant_status
   ignore_errors: yes
   changed_when: no
+  check_mode: false
 
 - name: vagrant up
   shell: vagrant up
