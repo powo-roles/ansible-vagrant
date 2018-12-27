@@ -39,6 +39,7 @@
     VAGRANT_DEFAULT_PROVIDER: "{{ _vagrant_provider }}"
   register: ssh_config
   changed_when: no
+  check_mode: false
 
 - name: vagrant ssh_config save
   copy:
