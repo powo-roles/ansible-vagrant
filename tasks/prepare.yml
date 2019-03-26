@@ -1,4 +1,11 @@
 ---
+
+# Ensure facts for localhost are gathered
+- setup: {}
+  become: true
+  become_user: root
+  delegate_facts: true
+
 - block:
 
   - name: vagrant check version
