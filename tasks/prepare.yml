@@ -5,6 +5,7 @@
   become: true
   become_user: root
   delegate_facts: true
+  register: my_facts
 
 - block:
 
@@ -30,7 +31,7 @@
 
   - name: virtualbox repository
     apt_repository:
-      repo: deb http://download.virtualbox.org/virtualbox/debian {{ hostvars[ansible_host]['ansible_distribution_release'] }} non-free contrib
+      repo: deb http://download.virtualbox.org/virtualbox/debian {{ my_facts['ansible_facts']['ansible_lsb']['id'] }} non-free contrib
       state: present
       filename: virtualbox
 
@@ -42,6 +43,6 @@
 
   # warning: we are on a delegated task, so we need to lookup
   # ansible_distribution on delegated host
-  when: hostvars[ansible_host]['ansible_distribution'] == 'Ubuntu'
+  when: my_facts['ansible_facts']['ansible_lsb']['id'] == 'Ubuntu'
   become: yes
   become_user: root
