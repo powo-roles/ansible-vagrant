@@ -21,7 +21,12 @@ Vagrant.configure(2) do |config|
     v.name = "{{ _vagrant_vm_name }}"
   end
 
-  config.vm.provision :shell do |shell|
-    shell.inline = "/bin/true"
-  end
+  config.vm.provision "shell", inline: <<-SHELL
+    yum update -y
+    {% if _vagrant_base == 'centos/8' -%}
+    yum install -y python36
+    yum install -y glibc-langpack-fr
+    {%- endif %}
+  SHELL
+
 end
